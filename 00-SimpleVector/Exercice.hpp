@@ -8,6 +8,13 @@ namespace excercice {
     capable de stocker un nombre indéfini et variable d'objets. Dans notre
     cas, on n'a pas besoin de supprimer des objets spécifiques, on ne fait
     qu'en ajouter.
+   
+  * Pro Tip: pour le debugger VS dans les watch (espions en francais), tu peux
+  * afficher les ptr sous forme de tableau :
+  * Avec: _Ty* ptr;
+  * Pour afficher ptr[0..9]: ptr,10
+  * Pour afficher ptr[5..9]: ptr+5,5
+  * https://docs.microsoft.com/fr-fr/visualstudio/debugger/format-specifiers-in-cpp?view=vs-2022
   */
   // _Ty correspond au type d'objet a stocker (comme les generic en C#)
   template<typename _Ty>class SimpleVector {

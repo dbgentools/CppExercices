@@ -14,7 +14,7 @@ namespace solution {
       void* tmpData = m_Data;
       m_Data = new _Ty[newSize];
       if (tmpData) {
-        std::memcpy(m_Data, tmpData, m_AllocatedSize);
+        std::memcpy(m_Data, tmpData, m_AllocatedSize*sizeof(_Ty));
         delete[] tmpData;
       }
       m_AllocatedSize = newSize;
@@ -44,7 +44,7 @@ namespace solution {
     }
 
     void clear() {
-      std::memset(m_Data, 0, m_AllocatedSize);
+      std::memset(m_Data, 0, m_AllocatedSize*sizeof(_Ty));
       m_Size = 0;
     }
 
