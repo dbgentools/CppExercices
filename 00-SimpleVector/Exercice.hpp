@@ -29,9 +29,7 @@ namespace excercice {
 			init(dsize);
 		}
 		// Constructeur principal
-		SimpleVector() {
-			init(DEFAULT_MEMORY_SIZE);
-		}
+		SimpleVector() : SimpleVector(DEFAULT_MEMORY_SIZE) { }
 
 		/// <summary>
 		/// Ajoute un élément dans le tableau par copie
@@ -56,7 +54,7 @@ namespace excercice {
 		/// <summary>
 		/// Permet d'accéder à un element particulier via un pointeur sans possibilité de modifier l'élément
 		/// </summary>
-		/// <param name="index">L'index de l'élément à acceder [0,+)</param>
+		/// <param name="index">L'index de l'élément à acceder </param>
 		/// <returns>Un pointeur vers l'objet constant</returns>
 		const _Ty* at(std::size_t index) { return &data[index]; }
 
@@ -73,7 +71,7 @@ namespace excercice {
 			if (data == nullptr)
 				data = new _Ty[memorySize];
 			else {
-				 data = (_Ty*)std::realloc(data, memorySize += DEFAULT_MEMORY_SIZE);
+				data = (_Ty*)std::realloc(data, memorySize += DEFAULT_MEMORY_SIZE);
 			}
 		}
 		void init(std::size_t size) {
