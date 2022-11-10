@@ -2,6 +2,7 @@
 #include "Utils.hpp"
 #include <cstddef>
 #include <cstdlib>
+#include <string.h>
 
 namespace excercice {
 	/*
@@ -29,7 +30,7 @@ namespace excercice {
 			init(dsize);
 		}
 		// Constructeur principal
-		SimpleVector() : SimpleVector(DEFAULT_MEMORY_SIZE) { }
+		SimpleVector() : SimpleVector(DEFAULT_ARRAY_SIZE) { }
 
 		/// <summary>
 		/// Ajoute un élément dans le tableau par copie
@@ -62,21 +63,26 @@ namespace excercice {
 		/// Permet de vider le tableau.
 		/// </summary>
 		void clear() {
-			std::free(data);
-			init(DEFAULT_MEMORY_SIZE);
+			delete[] data;
+			init(DEFAULT_ARRAY_SIZE);
 		}
 	private:
-		const int DEFAULT_MEMORY_SIZE = 16;
+		const int DEFAULT_ARRAY_SIZE = 16;
 		void allocate() {
-			if (data == nullptr)
-				data = new _Ty[memorySize];
+			if (data == nullptr) {
+				data = new _Ty[memorySize / sizeof(_Ty)];
+			}
 			else {
-				data = (_Ty*)std::realloc(data, memorySize += DEFAULT_MEMORY_SIZE);
+				memorySize += DEFAULT_ARRAY_SIZE * sizeof(_Ty);
+				_Ty* ptr = new _Ty[memorySize / sizeof(_Ty)];
+				_Ty* newPtr = (_Ty*)memcpy(ptr, data, sizeof(ptr));
+				delete[] data;
+				data = newPtr;
 			}
 		}
 		void init(std::size_t size) {
 			data = nullptr;
-			memorySize = size;
+			memorySize = size * sizeof(_Ty);
 			arraySize = 0;
 			allocate();
 		}
