@@ -38,7 +38,9 @@ namespace excercice {
 		/// </summary>
 		/// <param name="elem">Une copie de l'élement a ajouter</param>
 		void push_back(_Ty elem) {
-			allocate();
+			arraySize++;
+			if (memorySize <= arraySize * sizeof(_Ty*))
+				allocate();
 			data[arraySize - 1] = elem;
 		}
 
@@ -62,7 +64,7 @@ namespace excercice {
 		/// Permet de vider le tableau.
 		/// </summary>
 		void clear() {
-			delete[] data;
+			std::free(data);
 			init(DEFAULT_MEMORY_SIZE);
 		}
 	private:
@@ -71,8 +73,7 @@ namespace excercice {
 			if (data == nullptr)
 				data = new _Ty[memorySize];
 			else {
-				++arraySize;
-				data = (_Ty*)std::realloc(data, memorySize = arraySize * sizeof(_Ty));
+				 data = (_Ty*)std::realloc(data, memorySize += DEFAULT_MEMORY_SIZE);
 			}
 		}
 		void init(std::size_t size) {
