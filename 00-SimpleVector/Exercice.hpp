@@ -63,7 +63,6 @@ namespace excercice {
 		/// </summary>
 		void clear() {
 			delete[] data;
-			init(DEFAULT_ARRAY_SIZE);
 		}
 		~SimpleVector() {
 			delete[] data;
