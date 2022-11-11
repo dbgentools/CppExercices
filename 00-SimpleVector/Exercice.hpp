@@ -38,8 +38,7 @@ namespace excercice {
 		/// <param name="elem">Une copie de l'élement a ajouter</param>
 		void push_back(_Ty elem) {
 			arraySize++;
-			if (memorySize <= arraySize * sizeof(_Ty*))
-				allocate();
+			if (memorySize <= arraySize) allocate();
 			data[arraySize - 1] = elem;
 		}
 
@@ -66,23 +65,25 @@ namespace excercice {
 			delete[] data;
 			init(DEFAULT_ARRAY_SIZE);
 		}
+		~SimpleVector() {
+			delete[] data;
+		}
 	private:
 		const int DEFAULT_ARRAY_SIZE = 16;
 		void allocate() {
 			if (data == nullptr) {
-				data = new _Ty[memorySize / sizeof(_Ty)];
+				data = new _Ty[memorySize];
 			}
 			else {
-				memorySize += DEFAULT_ARRAY_SIZE * sizeof(_Ty);
-				_Ty* ptr = new _Ty[memorySize / sizeof(_Ty)];
-				_Ty* newPtr = (_Ty*)memcpy(ptr, data, sizeof(ptr));
+				memorySize += DEFAULT_ARRAY_SIZE;
+				_Ty* newPtr = (_Ty*)memcpy(new _Ty[memorySize], data, memorySize * sizeof(_Ty));
 				delete[] data;
 				data = newPtr;
 			}
 		}
 		void init(std::size_t size) {
 			data = nullptr;
-			memorySize = size * sizeof(_Ty);
+			memorySize = size;
 			arraySize = 0;
 			allocate();
 		}
