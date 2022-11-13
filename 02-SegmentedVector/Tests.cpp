@@ -47,6 +47,7 @@ template<typename _Ty>concept req_ex2 = requires(_Ty t, typename _Ty::value_type
 
 static const char* ewhat;
 static int _enum;
+static unsigned long _eerr;
 
 static constexpr auto tsize = 16ull * 16ull;
 template<req_ex1 _Ex1>void _test1() {
@@ -68,14 +69,14 @@ template<req_ex1 _Ex1>void _test1() {
 }
 
 void _sys_test_error() noexcept {
-  TEST_NO_DIE(std::format("{} (e {}) throwed a system-level exception", ewhat, _enum));
+  TEST_NO_DIE(std::format("{} (e {}) throwed a system-level exception {}", ewhat, _enum, _eerr));
 }
 
 void test(void(*fnc)()) {
   __try { fnc(); }
   __except (EXCEPTION_EXECUTE_HANDLER) {
-      const volatile auto e = GetExceptionCode(); 
-      _sys_test_error();
+    _eerr = GetExceptionCode();
+    _sys_test_error();
   }
 }
 
@@ -99,8 +100,8 @@ int main(int, char**) {
   test1<solution::SegmentedVector<int>>();
   test1<solution::SegmentedVector<TestElement>>();
 
-  //test1<exercice1::SegmentedVector<int>>();
-  //test1<exercice1::SegmentedVector<TestElement>>();
+  test1<exercice1::SegmentedVector<int>>();
+  test1<exercice1::SegmentedVector<TestElement>>();
 
   /*std::cout << "Test excercice 1 succeed...\n";
 
