@@ -52,8 +52,9 @@ namespace exercice1 {
   * 
   */
   template<typename _Ty>class SegmentedVector {
-    
   public:
+    using value_type = _Ty;
+
     // The maximum amount of segments
     const int SEGMENT_COUNT = 32;
     // The maximum number of elements in each segments
@@ -82,7 +83,8 @@ namespace exercice1 {
     /// <param name="index">The index of the element to retrieve</param>
     /// <returns></returns>
     _Ty& at(std::size_t index) {
-      return _Ty();
+      static _Ty remove_me;
+      return remove_me;
     }
 
   };

@@ -25,7 +25,7 @@ namespace solution {
   template<typename _Ty>class SegmentedVector {
     _Ty** m_Data;
     _Ty** m_Heads;
-    // at(x) -> data[this[x] & 0xFFFFFFFFFFFFFF]
+    // at(x) -> data[this[x] & 0xFF'FFFF'FFFF'FFFF]
     // 63-56: 8bits segment number
     // 55-0: 56bits index
     std::size_t* m_OffsetCorrecter;
@@ -52,6 +52,8 @@ namespace solution {
     }
 
   public:
+    using value_type = _Ty;
+
     void reorganize(std::size_t nwSegSz, std::size_t nwSegCnt) {
       _Ty** oldData = m_Data;
       _Ty** oldHeads = m_Heads;
@@ -152,7 +154,7 @@ namespace solution {
       _Ty* ptr = &m_Data[0][0];
       while (max-- && seg < m_CurrentSegment && ptr) {
         *arr++ = *ptr++;
-        if (ptr > m_Heads[seg]) {
+        if (ptr >= m_Heads[seg]) {
           ++seg;
           if (seg > m_CurrentSegment)
             ptr = nullptr;
